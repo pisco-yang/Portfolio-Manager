@@ -1,4 +1,5 @@
-const fetch = require('node-fetch');
+// Use global fetch when available (Node 18+), otherwise fall back to node-fetch
+const fetch = global.fetch || ((...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args)));
 
 const API_BASE = 'http://localhost:3000/api';
 

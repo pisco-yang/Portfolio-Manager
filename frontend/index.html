@@ -17,22 +17,27 @@
                 <i class="fas fa-chart-line"></i> Portfolio Manager
             </div>
             <div class="nav-tabs">
-                <button class="nav-tab active" onclick="showTab('overview')">
+                <button class="nav-tab active" data-tab="overview" onclick="showTab('overview')">
                     <i class="fas fa-home"></i> Overview
                 </button>
-                <button class="nav-tab" onclick="showTab('trading')">
+                <button class="nav-tab" data-tab="trading" onclick="showTab('trading')">
                     <i class="fas fa-exchange-alt"></i> Trading
                 </button>
-                <button class="nav-tab" onclick="showTab('history')">
+                <button class="nav-tab" data-tab="history" onclick="showTab('history')">
                     <i class="fas fa-history"></i> History
                 </button>
-                <button class="nav-tab" onclick="showTab('analytics')">
-                    <i class="fas fa-chart-bar"></i> Analytics
+                <button class="nav-tab" data-tab="analytics" onclick="showTab('analytics')">
+                <i class="fas fa-chart-bar"></i> Analytics
                 </button>
             </div>
-            <div class="real-time-clock">
-                <div class="clock-time" id="clockTime">00:00:00</div>
-                <div class="clock-date" id="clockDate">January 1, 2024</div>
+            <div class="header-actions">
+                <div class="real-time-clock">
+                    <div class="clock-time" id="clockTime">00:00:00</div>
+                    <div class="clock-date" id="clockDate">January 1, 2024</div>
+                </div>
+                <button id="themeToggle" class="theme-toggle">
+                    <i class="fas fa-moon"></i>
+                </button>
             </div>
         </div>
 
