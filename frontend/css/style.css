@@ -27,6 +27,18 @@ body {
     min-height: 100vh;
     color: var(--text-white);
     overflow-x: hidden;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+body.light-mode {
+    --black: #f5f5f5;
+    --dark-gray: #e0e0e0;
+    --medium-gray: #d0d0d0;
+    --light-gray: #c0c0c0;
+    --text-white: #0a0a0a;
+    --text-gray: #333333;
+    background: linear-gradient(135deg, var(--black) 0%, var(--dark-gray) 50%, var(--black) 100%);
+    color: var(--text-white);
 }
 
 /* Animated background */
@@ -152,6 +164,25 @@ body::before {
     100% {
         left: 100%;
     }
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.theme-toggle {
+    background: none;
+    border: none;
+    color: var(--text-white);
+    font-size: 20px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.theme-toggle:hover {
+    color: var(--primary-green);
 }
 
 .logo {

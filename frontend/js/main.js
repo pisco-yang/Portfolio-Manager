@@ -32,6 +32,9 @@ function setupEventListeners() {
     
     // Mouse effects
     setupMouseEffects();
+
+    // Theme toggle
+    setupThemeToggle();
 }
 
 function showLoading(show) {
@@ -101,6 +104,36 @@ function setupMouseEffects() {
     });
 }
 
+function setupThemeToggle() {
+    const toggle = document.getElementById('themeToggle');
+    if (!toggle) return;
+
+    const applyTheme = (theme) => {
+        document.body.classList.toggle('light-mode', theme === 'light');
+        localStorage.setItem('theme', theme);
+        updateIcon();
+    };
+
+    const updateIcon = () => {
+        const icon = toggle.querySelector('i');
+        if (document.body.classList.contains('light-mode')) {
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        } else {
+            icon.classList.add('fa-moon');
+            icon.classList.remove('fa-sun');
+        }
+    };
+
+    const saved = localStorage.getItem('theme');
+    applyTheme(saved || 'dark');
+
+    toggle.addEventListener('click', () => {
+        const newTheme = document.body.classList.contains('light-mode') ? 'dark' : 'light';
+        applyTheme(newTheme);
+    });
+}
+
 // ===== TAB NAVIGATION =====
 function showTab(tabName) {
     // Hide all tab contents with animation
@@ -127,8 +160,11 @@ function showTab(tabName) {
         }, 50);
     }, 300);
     
-    // Add active class to clicked tab
-    event.target.classList.add('active');
+    // Add active class to corresponding nav tab
+    const activeButton = document.querySelector(`.nav-tab[data-tab="${tabName}"]`);
+    if (activeButton) {
+        activeButton.classList.add('active');
+    }
     
     // Load specific data for each tab
     loadTabData(tabName);
