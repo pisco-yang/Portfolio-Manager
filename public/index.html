@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Portfolio Dashboard</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="dashboard-row">
+            <!-- 左侧边栏 -->
+            <div class="sidebar-column">
+                <img src="./img/logo.png" class="sidebar-logo" />
+                <button id="portfolioBtn" class="sidebar-btn active">Portfolio</button>
+                <button id="tradeBtn" class="sidebar-btn">Trade</button>
+            </div>
+
+            <!-- 中间净值区域 -->
+            <div class="networth-card" id="networthView">
+                <div class="header">
+                    <h2>Net Worth</h2>
+                    <div>
+                        <div class="main">$2,317,371</div>
+                        <div class="change">+ $3,402 Today</div>
+                        <div class="change">+ $138,884 Last 30 Days</div>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button id="networth-btn-1D">1D</button>
+                    <button id="networth-btn-1W">1W</button>
+                    <button id="networth-btn-1M">1M</button>
+                </div>
+                <canvas id="netWorthChart" height="150"></canvas>
+
+                <!-- Portfolio Table from API -->
+                <h2>My Portfolio Summary</h2>
+                <table id="portfolio-table" border="1"></table>
+            </div>
+
+            <!-- 中间交易区域（默认隐藏） -->
+            <div class="networth-card" id="tradeView" style="display: none;">
+                <h2>Trade Stocks</h2>
+                <label for="stockSelect">Choose a stock:</label>
+                <select id="stockSelect">
+                    <option value="AAPL">Apple (AAPL)</option>
+                    <option value="TSLA">Tesla (TSLA)</option>
+                    <option value="AMZN">Amazon (AMZN)</option>
+                    <option value="GOOGL">Google (GOOGL)</option>
+                </select>
+                <p id="stockPrice"></p>
+                <input type="number" id="shareInput" placeholder="Enter number of shares" />
+                <div>
+                    <button id="buyBtn">Buy</button>
+                    <button id="sellBtn">Sell</button>
+                </div>
+                <p id="tradeResult"></p>
+            </div>
+
+            <!-- 右侧市场动态区域 -->
+            <div class="marketmovers-card">
+                <div class="header">
+                    <h2>Market Movers</h2>
+                </div>
+                <div class="button-group">
+                    <button id="market-btn-1D">1D</button>
+                    <button id="market-btn-1W">1W</button>
+                    <button id="market-btn-1M">1M</button>
+                </div>
+                <div class="market-movers">
+                    <div class="column">
+                        <h3>Top Gainers</h3>
+                        <ul id="gainers"></ul>
+                    </div>
+                    <div class="column">
+                        <h3>Top Losers</h3>
+                        <ul id="losers"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/networth.js"></script>
+    <script src="js/marketmovers.js"></script>
+    <script src="js/trade.js"></script>
+    <script src="js/main.js"></script>
+
+    <!-- Portfolio Summary Fetch -->
+    <script>
+        fetch('/api/portfolio/summary')
+            .then(response => response.json())
+            .then(data => {
+                const table = document.getElementById('portfolio-table');
+                table.innerHTML = `
+              <tr>
+                <th>Asset</th><th>Qty</th><th>Avg Price</th>
+                <th>Curr Price</th><th>Value</th><th>Profit</th><th>%</th>
+              </tr>
+            `;
+
+                data.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                <td>${item.symbol}</td>
+                <td>${item.quantity}</td>
+                <td>${item.average_purchase_price}</td>
+                <td>${item.current_price}</td>
+                <td>${item.value.toFixed(2)}</td>
+                <td>${item.profit.toFixed(2)}</td>
+                <td>${item.profit_percent}%</td>
+              `;
+                    table.appendChild(row);
+                });
+            });
+    </script>
+</body>
+</html>
